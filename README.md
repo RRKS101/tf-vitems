@@ -2,9 +2,9 @@
 #### A vscript library for managing attributes on items and players for Team Fortress 2
 
 ## Table Of Contents
- - [Why Does This Exist](README.md#L9)
- - [How To Install](README.md#L14)
- - [Examples](README.md#L21)
+ - [Why Does This Exist](https://github.com/RRKS101/tf-vitems/blob/main/README.md#L9)
+ - [How To Install](https://github.com/RRKS101/tf-vitems/blob/main/README.md#L14)
+ - [Examples](https://github.com/RRKS101/tf-vitems/blob/main/README.md#L21)
 
 ### Why Does This Exist
 This is a library that I created for my own personal use to better enable me to create concepts like Uber Upgrades, Tower Defence, Weapon Leveling, etc. It has simplified aspects of my own code where I modify a players weapon attributes.
