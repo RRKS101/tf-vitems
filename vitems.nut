@@ -5,10 +5,10 @@ local function erro(str) { printl("[vitems.nut] ERROR: " + str); }
 IncludeScript("libs/vitems/vitems_IdName.nut");
 
 
-// playerTracker -> playerID -> weaponID -> AttributeIDs(From wiki)
-//                           -> playerID -> AttributeIDs(From wiki)
-//                           -> "RemoveAttribsOnDeath"=false
-//                           -> ""
+// playerTracker -> playerID -> weaponID -> AttributeIDs(From wiki)+"metaAttribs":{}
+//                           -> playerID -> AttributeIDs(From wiki)+"metaAttribs":{}
+//                           -> "metaAttribs":
+//                                  +-> RemoveAttribsOnDeath = vitems_default_RemoveAttribsOnDeath
 local playerTracker = {}
 
 
