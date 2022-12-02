@@ -60,4 +60,4 @@ function button_press()
 }
 ```
 
-For Documentation Of All Functions And Possible Edge Cases, Please Refer To The [Wiki](wiki)
+For Documentation Of All Functions And Possible Edge Cases, Please Refer To The [Wiki](https://github.com/RRKS101/tf-vitems/wiki)
