@@ -26,19 +26,24 @@ This sample uses a clip brush button that triggers on damage the below function
 ```Squirrel
 function button_press()
 {
-	if(activator == null) { printl("WARN: Button Was Pressed By Nothing. Boo!"); return; }  // Weird behaviour for first time button is damaged. Im a hammer noob :/
+    // Weird behaviour for first time button is damaged. Im a hammer noob :/
+	if(activator == null) { printl("WARN: Button Was Pressed By Nothing. Boo!"); return; }  
 
     // Ensure that the activator is a player to prevent possible edge cases from arising
 	if (!activator.IsPlayer()) { printl("WARN: Button Was Pressed By A Non-Player Entity"); return; }
 	local player = activator;
-    // Get the players ID using the getPlayerID function from vitems. This function is an alias to entity.GetScriptId()
+    // Get the players ID using the getPlayerID function from vitems. 
+    //  This function is an alias to entity.GetScriptId()
 	local playerID = getPlayerID(player);
 
-    // Get the players currently active weapon. There is likely a bug here where if the button is pressed by a projectile, it is possible that they may have switched to a different weapon but oh well
+    // Get the players currently active weapon. There is likely a bug here where if the button is pressed by a projectile, 
+    //  it is possible that they may have switched to a different weapon but oh well
 	local weapon = activator.GetActiveWeapon();
-    // If the player is dead when the button is triggered, the above function will return null, this is a check for that case
+    // If the player is dead when the button is triggered, 
+    //  the above function will return null, this is a check for that case
 	if (weapon == null) { printl("WARN: Player Did Not Have An Active Weapon. Did They Die?"); return; }
-    // Get the weapons ID using the getWeaponID function from vitems. This function is an alias to entity.GetScriptId()
+    // Get the weapons ID using the getWeaponID function from vitems. 
+    //  This function is an alias to entity.GetScriptId()
 	local weaponID = getWeaonID(weapon);
 
     // Get the clip size bonus attribute associated with the weapon
@@ -48,7 +53,8 @@ function button_press()
     // Increase the weapons current clip size by 25%
 	setPlayerWeaponAttribute(playerID, weaponID, 4, attribVal+0.25);
 	
-    // Apply the changes to all attributes for this player. Not that it takes a player reference/instance rather than ID
+    // Apply the changes to all attributes for this player. 
+    //  Note that it takes a player reference/instance rather than ID
 	applyPlayerAttributes(player);
 }
 ```
