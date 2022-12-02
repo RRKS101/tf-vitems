@@ -2,9 +2,9 @@
 #### A vscript library for managing attributes on items and players for Team Fortress 2
 
 ## Table Of Contents
- - [Why Does This Exist](https://github.com/RRKS101/tf-vitems/blob/b1021bde5334e390351ed625db1a4062aee555de/README.md#L9)
- - [How To Install](https://github.com/RRKS101/tf-vitems/blob/b1021bde5334e390351ed625db1a4062aee555de/README.md#L14)
- - [Examples](https://github.com/RRKS101/tf-vitems/blob/b1021bde5334e390351ed625db1a4062aee555de/README.md#L21)
+ - [Why Does This Exist](README.md#L9)
+ - [How To Install](README.md#L14)
+ - [Examples](README.md#L21)
 
 ### Why Does This Exist
 This is a library that I created for my own personal use to better enable me to create concepts like Uber Upgrades, Tower Defence, Weapon Leveling, etc. It has simplified aspects of my own code where I modify a players weapon attributes.
@@ -12,11 +12,12 @@ This is a library that I created for my own personal use to better enable me to 
 There are still may limitations to this library such as failing to account for static attributes (i.e; attributes on existing TF2 Items) and not having the ability to give players a completely custom weapon as well as other shortcommings that I am yet to experience. 
 
 ### How To Install
-First Download The Repository And Copy vitems.nut and vitems/ Into Your Projects Directory
+First Download The Repository And Copy `vitems.nut` and `vitems/` Into Your Projects Directory
 Then Add The Following To The Top Of The Script Where You Would Like The Library To Be Loaded
 ```Squirrel
 IncludeScript("vitems.nut");
 ```
+Of course you can place the library into a `lib/` folder, however be sure to update the `IncludeScript` paramater to account for this change.
 
 ### Examples
 Refer To [How To Install](https://github.com/RRKS101/tf-vitems/blob/main/README.md#L14) For Installation Steps - Its pretty simple.
@@ -59,4 +60,4 @@ function button_press()
 }
 ```
 
-For Documentation Of All Functions And Possible Edge Cases, Please Refer To The Wiki
+For Documentation Of All Functions And Possible Edge Cases, Please Refer To The [Wiki](wiki)
