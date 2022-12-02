@@ -2,7 +2,7 @@ local function log(str) { printl("[vitems.nut] LOG: " + str); }
 local function warn(str) { printl("[vitems.nut] WARN: " + str); }
 local function erro(str) { printl("[vitems.nut] ERROR: " + str); }
 
-IncludeScript("libs/vitems/vitems_IdName.nut");
+IncludeScript("libs/tf-vitems/vitems/vitems_IdName.nut");
 
 
 // playerTracker -> playerID -> weaponID -> AttributeIDs(From wiki)+"metaAttribs":{}
@@ -52,6 +52,31 @@ function setPlayerWeaponAttribute(playerID, weaponID, attribID, newVal)
     }
     playerTracker[playerID][weaponID][attribID] = newVal;
 }
+function setPlayerWeaponMetaAttribute(playerID, weaponID, metaKey, metaVal)
+{
+    if(!(playerID in playerTracker)) addPlayerToTracker(playerID);
+    if(!(weaponID in playerTracker[playerID])) addPlayerWeaponToTracker(playerID, weaponID);
+    if(metaKey in playerTracker[playerID][weaponID]["metaAttribs"])
+    {
+        playerTracker[playerID][weaponID]["metaAttribs"][metaKey] = metaVal;
+    }
+    else
+    {
+        playerTracker[playerID][weaponID]["metaAttribs"][metaKey] <- metaVal;
+    }
+}
+function setPlayerMetaAttribute(playerID, metaKey, metaVal)
+{
+    if(!(playerID in playerTracker)) addPlayerToTracker(playerID);
+    if(metaKey in playerTracker[playerID]["metaAttribs"])
+    {
+        playerTracker[playerID]["metaAttribs"][metaKey] = metaVal;
+    }
+    else
+    {
+        playerTracker[playerID]["metaAttribs"][metaKey] <- metaVal;
+    }
+}
 function getPlayerAttributes(playerID)
 {
     if(!(playerID in playerTracker)) addPlayerToTracker(playerID);
@@ -70,6 +95,18 @@ function getPlayerWeaponAttribute(playerID, weaponID, attribID)
     if(!(attribID in playerTracker[playerID][weaponID])) return null;
     return playerTracker[playerID][weaponID][attribID];
 }
+function getPlayerWeaponMetaAttribute(playerID, weaponID, metaKey)
+{
+    local metaAttribs = getPlayerWeaponAttribute(playerID, weaponID, "metaAttribs");
+    if (metaKey in metaAttribs) return metaAttribs[metaKey];
+    return null;
+}
+function getPlayerMetaAttribute(playerID, metaKey)
+{
+    local metaAttribs = getPlayerAttributes(playerID)["metaAttribs"];
+    if(metaKey in metaAttribs) return metaAttribs[metaKey];
+    return null;
+}
 function resetPlayerAttributes(playerID)
 {
     if(!(playerID in playerTracker)) return false;
@@ -80,6 +117,7 @@ function resetPlayerAttributes(playerID)
     }
     return true;
 }
+// Only deletes from cache
 function removePlayerWeaponAttribute(playerID, weaponID, attribID)
 {
     if(weaponID == "metaAttribs") return false;
@@ -112,7 +150,7 @@ function removePlayerAttribute(player, weaponID, attribID)
 {
     if(weaponID == "metaAttribs") return;
 
-    local attribName <- convertIDToName(attribID);
+    local attribName = convertIDToName(attribID);
     if(attribName == null) { warn("AttribID did not have an existing AttribName, and therefore could not be added/removed"); return; }
 
     local playerID = player.GetScriptId();
@@ -127,7 +165,7 @@ function removePlayerAttribute(player, weaponID, attribID)
 
     if(playerID == weaponID)
     {
-        player.RemoveCustomAttribute(attribName, val, -1);
+        player.RemoveCustomAttribute(attribName);
     }
     else
     {
@@ -142,7 +180,7 @@ function removePlayerAttribute(player, weaponID, attribID)
                         if(attribID in playerAttribs[weapon.GetScriptId()])
                         {
                             if(attribID == "metaAttribs") continue;
-                            weapon.RemoveAttribute(attribName, val, -1);
+                            weapon.RemoveAttribute(attribName);
                         }
                     }
                 }
@@ -224,7 +262,7 @@ function removeAllAttributes(player)
                 {
                     foreach (attrib,val in playerAttribs[weapon.GetScriptId()]) 
                     {
-                        if(attribID == "metaAttribs") continue;
+                        if(attrib == "metaAttribs") continue;
                         local attribName = convertIDToName(attrib);
                         if (attribName != null)
                         {
@@ -262,12 +300,29 @@ function OnGameEvent_player_death(params)
 	if(player == null) { warn("A Player Died, But That Player Doesn't Exist?"); return; }
     if(!(player.GetScriptId() in playerTracker)) { return; }
 
+    local playerID = player.GetScriptId();
 
+	if(getPlayerMetaAttribute(player.GetScriptId(), "RemoveAttribsOnDeath") == true)
+    {
+        removeAllAttributes(player);
+    }
+    else
+    {
+        foreach (weaponID,v1 in playerTracker[playerID])
+        {
+            if(weaponID == "metaAttribs") continue;
 
-	// if(getPlayerWeaponAttributes(player.GetScriptId(), "RemoveAttribsOnDeath"))
-    // {
-    //     removeAllAttributes(player);
-    // }
+            if (getPlayerWeaponMetaAttribute(playerID, weaponID, "RemoveAttribsOnDeath"))
+            {
+                // This is horrible!!!
+                foreach (attribID, v2 in getPlayerWeaponAttributes(playerID, weaponID))
+                {
+                    if(attribID == "metaAttribs") continue;
+                    removePlayerAttribute(player, weaponID, attribID);
+                }
+            }
+        }
+    }
 }
 
 function OnGameEvent_player_changeclass(params)
