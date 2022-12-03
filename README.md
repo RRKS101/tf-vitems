@@ -12,12 +12,13 @@ This is a library that I created for my own personal use to better enable me to 
 There are still may limitations to this library such as failing to account for static attributes (i.e; attributes on existing TF2 Items) and not having the ability to give players a completely custom weapon as well as other shortcommings that I am yet to experience. 
 
 ### How To Install
-First Download The Repository And Copy `vitems.nut` and `vitems/` Into Your Projects Directory
-Then Add The Following To The Top Of The Script Where You Would Like The Library To Be Loaded
+ 1. Create A `lib/` Folder In Your Main Script Directory i.e `tf/scripts/vscript`
+ 2. Navigate Into The Newly Created `lib/` Folder And Run `git clone https://github.com/RRKS101/tf-vitems.git` Or Extract A Downloaded Zip File Of The Repository
+ 3. Then Add The Following To The Top Of The Script Where You Would Like The Library To Be Initially Loaded
 ```Squirrel
 IncludeScript("vitems.nut");
 ```
-Of course you can place the library into a `lib/` folder, however be sure to update the `IncludeScript` paramater to account for this change.
+Of course you can place the library into any folder, however be sure to update the `IncludeScript` paramaters in all files to account for this change.
 
 ### Examples
 Refer To [How To Install](https://github.com/RRKS101/tf-vitems/blob/main/README.md#L14) For Installation Steps - Its pretty simple.
